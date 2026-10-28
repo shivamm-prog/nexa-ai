@@ -36,7 +36,8 @@ export type PageId =
   | 'evidence-map'
   | 'explore-next'
   | 'saved'
-  | 'settings';
+  | 'settings'
+  | 'paper-comparison';
 
 interface ResearchContextType {
   activePage: PageId;
@@ -238,6 +239,17 @@ export const ResearchProvider: React.FC<{ children: ReactNode }> = ({ children }
       console.error('Failed to save settings', e);
     }
   }, [settings]);
+
+  // Apply theme to document body on settings change
+  useEffect(() => {
+    document.body.setAttribute('data-theme', settings.theme);
+  }, [settings.theme]);
+
+  // Apply initial theme synchronously on first render
+  useEffect(() => {
+    document.body.setAttribute('data-theme', settings.theme);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Toast notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);

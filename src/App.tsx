@@ -19,6 +19,7 @@ import { ExploreNextPage } from './pages/ExploreNextPage';
 import { SavedResearchPage } from './pages/SavedResearchPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { CinematicIntro } from './components/intro/CinematicIntro';
+import { PaperComparisonPage } from './pages/PaperComparisonPage';
 
 const AppContent: React.FC = () => {
   const { activePage, isIntroActive, setIsIntroActive } = useResearch();
@@ -41,6 +42,8 @@ const AppContent: React.FC = () => {
         return <SavedResearchPage />;
       case 'settings':
         return <SettingsPage />;
+      case 'paper-comparison':
+        return <PaperComparisonPage />;
       default:
         return <HomePage />;
     }

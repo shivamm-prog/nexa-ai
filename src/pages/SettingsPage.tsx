@@ -95,7 +95,7 @@ export const SettingsPage: React.FC = () => {
     }
   };
 
-  const handleThemeChange = (theme: 'dark-navy' | 'midnight-slate' | 'deep-noir') => {
+  const handleThemeChange = (theme: 'dark-navy' | 'midnight-slate' | 'deep-noir' | 'light') => {
     updateSettings({ theme });
     document.body.setAttribute('data-theme', theme);
   };
@@ -244,6 +244,12 @@ export const SettingsPage: React.FC = () => {
                 title: 'Deep Noir',
                 desc: 'Pure high-contrast black (#04060A) for OLED low-light environments.',
                 previewBg: '#04060A'
+              },
+              {
+                id: 'light',
+                title: 'Light Academic',
+                desc: 'Clean white canvas (#F4F6FA) with amber gold accents — ideal for print and daylight.',
+                previewBg: '#F4F6FA'
               }
             ].map(theme => (
               <div

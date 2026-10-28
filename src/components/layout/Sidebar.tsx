@@ -10,7 +10,8 @@ import {
   Sparkles,
   ArrowUpRight,
   BookOpen,
-  FileText
+  FileText,
+  GitCompare
 } from 'lucide-react';
 import { useResearch } from '../../context/ResearchContext';
 import type { PageId } from '../../context/ResearchContext';
@@ -31,6 +32,7 @@ export const Sidebar: React.FC = () => {
     { id: 'dashboard', label: 'Research Analysis', icon: LayoutDashboard },
     { id: 'sources', label: 'Sources', icon: BookOpen, badge: investigation.sources?.length || undefined },
     { id: 'literature-survey', label: 'Literature Survey', icon: FileText, badge: 'New', highlight: true },
+    { id: 'paper-comparison', label: 'Paper Comparison', icon: GitCompare },
     { id: 'evidence-map', label: 'Evidence Map', icon: Network },
     { id: 'explore-next', label: 'Explore Next', icon: Compass, badge: 'Frontier' },
     { id: 'saved', label: 'Saved Research', icon: Bookmark, badge: savedItems.length || undefined },

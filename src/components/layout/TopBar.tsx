@@ -44,6 +44,8 @@ export const TopBar: React.FC = () => {
         return 'Research Notebook';
       case 'settings':
         return 'Platform Preferences';
+      case 'paper-comparison':
+        return 'Paper Comparison Engine';
       default:
         return 'Research Intelligence';
     }

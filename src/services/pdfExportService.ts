@@ -8,8 +8,12 @@ import { PaperComparisonData } from './paperComparisonService';
 const PRIMARY_COLOR = [26, 32, 44];       // Dark charcoal / slate text
 const SECONDARY_COLOR = [74, 85, 104];    // Subdued gray text
 const GOLD_ACCENT = [217, 119, 6];        // Warm amber / gold #D97706
-const GOLD_LIGHT = [254, 243, 199];       // Light amber tint #FEF3C7
 const BORDER_COLOR = [226, 232, 240];     // Subtle light border
+
+// Safe wrapper to get Y position after an autoTable call
+function getTableFinalY(doc: jsPDF, fallback: number): number {
+  return (doc as any).lastAutoTable?.finalY ?? fallback;
+}
 
 // Helper to draw standard academic header on first page
 function drawReportHeader(doc: jsPDF, title: string, topic: string) {
@@ -36,14 +40,16 @@ function drawReportHeader(doc: jsPDF, title: string, topic: string) {
   doc.setTextColor(PRIMARY_COLOR[0], PRIMARY_COLOR[1], PRIMARY_COLOR[2]);
   doc.text(title, 14, 28);
 
-  // Topic & Timestamp Meta
+  // Topic & Timestamp Meta — clamp topic to prevent overflow
+  const maxTopicWidth = pageWidth - 56;
+  const clampedTopic = doc.splitTextToSize(topic, maxTopicWidth)[0];
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.setTextColor(SECONDARY_COLOR[0], SECONDARY_COLOR[1], SECONDARY_COLOR[2]);
   doc.text(`Research Topic: `, 14, 35);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(PRIMARY_COLOR[0], PRIMARY_COLOR[1], PRIMARY_COLOR[2]);
-  doc.text(topic, 42, 35);
+  doc.text(clampedTopic, 42, 35);
 
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(SECONDARY_COLOR[0], SECONDARY_COLOR[1], SECONDARY_COLOR[2]);
@@ -139,7 +145,7 @@ export function exportResearchAnalysisPdf(investigation: InvestigationData): voi
     }
   });
 
-  y = (doc as any).lastAutoTable.finalY + 10;
+  y = getTableFinalY(doc, y) + 10;
 
   // Section 3: Consensus Points (Agreements)
   if (y > 240) {
@@ -272,7 +278,7 @@ export function exportPaperComparisonPdf(comparison: PaperComparisonData, topic:
     }
   });
 
-  y = (doc as any).lastAutoTable.finalY + 8;
+  y = getTableFinalY(doc, y) + 8;
 
   if (y > 165) {
     doc.addPage();
@@ -397,7 +403,7 @@ export function exportLiteratureSurveyPdf(survey: LiteratureSurveyData): void {
     }
   });
 
-  y = (doc as any).lastAutoTable.finalY + 8;
+  y = getTableFinalY(doc, y) + 8;
 
   // 5. Critical Synthesis
   if (y > 230) { doc.addPage(); y = 20; }
@@ -530,7 +536,7 @@ export function exportCitationReportPdf(sources: Source[], claims: any[], topic:
     }
   });
 
-  y = (doc as any).lastAutoTable.finalY + 10;
+  y = getTableFinalY(doc, y) + 10;
 
   if (y > 220) { doc.addPage(); y = 20; }
 
@@ -592,7 +598,7 @@ export function exportEvidenceMapPdf(investigation: InvestigationData): void {
     styles: { fontSize: 9, cellPadding: 3 }
   });
 
-  y = (doc as any).lastAutoTable.finalY + 10;
+  y = getTableFinalY(doc, y) + 10;
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);

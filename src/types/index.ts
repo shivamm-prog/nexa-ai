@@ -132,7 +132,7 @@ export interface SavedItem {
 }
 
 export interface UserSettings {
-  theme: 'dark-navy' | 'midnight-slate' | 'deep-noir';
+  theme: 'dark-navy' | 'midnight-slate' | 'deep-noir' | 'light';
   preferredSources: SourceType[];
   displayDensity: 'comfortable' | 'compact';
   showFlowAnimations: boolean;
